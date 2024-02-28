@@ -1,9 +1,11 @@
+#include <iostream>
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 int main(void)
 {
     GLFWwindow* window;
-
+    
     /* Initialize the library */
     if (!glfwInit())
         return -1;
@@ -19,11 +21,24 @@ int main(void)
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
 
+    /* Initialize the library */
+    if (!gladLoadGL())
+    {
+        std::cout << "Can`t Load Glad Yomayo";
+        return -1;
+    }
+
+    /* Out version OpenGL */
+    std::cout << "OpenGL version " << GLVersion.major << "." << GLVersion.minor << std::endl;
+
+    //Eperiment front (todo: delet this)
+    glClearColor(1, 0, 0, 1);
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
         /* Render here */
-        //glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT);
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);

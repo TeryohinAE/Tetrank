@@ -8,6 +8,9 @@ project(Game LANGUAGES CXX)
 set(CMAKE_CONFIG_TYPE Release)
 #set(CMAKE_CROSSCOMPILING True)
 
+#--------------------------------------------------------------------
+#Library for working with OpenGL Context
+#--------------------------------------------------------------------
 
 add_subdirectory (external/GLFW)
 
@@ -16,6 +19,16 @@ set (GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set (GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set (GLFW_BUILD_INSTALL OFF CACHE BOOL "" FORCE)
 
+#--------------------------------------------------------------------
+#Library for working with OpenGL function
+#--------------------------------------------------------------------
 
-add_executable(Game src/main.cpp)
-target_link_libraries(Game glfw)
+add_subdirectory (external/GLAD)
+
+#--------------------------------------------------------------------
+#Finaly building
+#--------------------------------------------------------------------
+
+add_executable(${PROJECT_NAME} src/main.cpp)
+target_link_libraries(${PROJECT_NAME} glfw)
+target_link_libraries(${PROJECT_NAME} glad)
