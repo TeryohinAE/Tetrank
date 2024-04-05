@@ -24,6 +24,7 @@ set (GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set (GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set (GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set (GLFW_BUILD_INSTALL OFF CACHE BOOL "" FORCE)
+set (GLFW_WAYLAND_LIBDECOR OFF)
 
 #--------------------------------------------------------------------
 #Library for working with OpenGL function
