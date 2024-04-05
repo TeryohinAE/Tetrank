@@ -1,3 +1,5 @@
 build
 bin
 VS_build
+.vs
+out
