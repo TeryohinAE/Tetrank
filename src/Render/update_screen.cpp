@@ -1,31 +1,33 @@
-#pragma once
 #include "render.hpp"
 #include <chrono>
 #include <thread>
 
-int limit_frame = 60;
+namespace Render {
 
-void update_screen(GLFWwindow* pWindow, Shader_Program& shader_program, GLuint& vao) {
+    int limit_frame = 60;
 
-    std::chrono::microseconds frame_time((1000 / limit_frame));
-    auto last_frame = std::chrono::steady_clock::now();
+    void update_screen(GLFWwindow* pWindow, std::shared_ptr<Render::Shader_Program> shader_program, GLuint& vao) {
 
-    while (!glfwWindowShouldClose(pWindow))
-    {
-        last_frame = std::chrono::steady_clock::now();
-        /* Render here */
-        glClear(GL_COLOR_BUFFER_BIT);
+        std::chrono::microseconds frame_time((1000 / limit_frame));
+        auto last_frame = std::chrono::steady_clock::now();
 
-        shader_program.use();
-        glBindVertexArray(vao);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        while (!glfwWindowShouldClose(pWindow))
+        {
+            last_frame = std::chrono::steady_clock::now();
+            /* Render here */
+            glClear(GL_COLOR_BUFFER_BIT);
 
-        /* Swap front and back buffers */
-        glfwSwapBuffers(pWindow);
+            shader_program->use();
+            glBindVertexArray(vao);
+            glDrawArrays(GL_TRIANGLES, 0, 3);
 
-        /* Poll for and process events */
-        glfwPollEvents();
-        auto end_frame = std::chrono::steady_clock::now();
-        std::this_thread::sleep_for((end_frame - last_frame) - frame_time);
+            /* Swap front and back buffers */
+            glfwSwapBuffers(pWindow);
+
+            /* Poll for and process events */
+            glfwPollEvents();
+            auto end_frame = std::chrono::steady_clock::now();
+            std::this_thread::sleep_for((end_frame - last_frame) - frame_time);
+        }
     }
 }

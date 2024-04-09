@@ -5,6 +5,7 @@
 #include "Render/render.hpp"
 #include "Settings/settings.hpp"
 #include "Event_system/event_system.hpp"
+#include "../res/resource_manager.hpp"
 
 GLfloat point[] = {
     0.0f,   0.5f,   0.0f,
@@ -17,26 +18,9 @@ GLfloat colors[] = {
     0.0f,   0.0f,   1.0f
 };
 
-const char* vertex_shader =
-"#version 460\n"
-"layout(location = 0) in vec3 vertex_pos;"
-"layout(location = 1) in vec3 vertex_col;"
-"out vec3 color;"
-"void main() {"
-"   color = vertex_col;"
-"   gl_Position = vec4(vertex_pos, 1.0);"
-"}";
-const char* fragment_shader =
-"#version 460\n"
-"in vec3 color;"
-"out vec4 frag_color;"
-"void main() {"
-"   frag_color = vec4(color, 1.0);"
-"}";
 
-int main(void)
+int main(int argc, char** argv)
 {
-    GLFWwindow* pWindow;
     
     /* Initialize the library */
     if (!glfwInit()) {
@@ -50,7 +34,7 @@ int main(void)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     /* Create a windowed mode window and its OpenGL context */
-    pWindow = glfwCreateWindow(settings.get_x_window_size(), settings.get_y_window_size(), "Tetrank", NULL, NULL);
+    GLFWwindow* pWindow = glfwCreateWindow(settings.get_x_window_size(), settings.get_y_window_size(), "Tetrank", NULL, NULL);
     if (!pWindow)
     {
         std::cout << "окно не было создано\n";
@@ -80,9 +64,18 @@ int main(void)
     //Eperiment front (todo: delet this)
     glClearColor(1, 0, 0, 1);
 
-    std::string vertex_shader(::vertex_shader);
-    std::string fragment_shader(::fragment_shader);
-    Shader_Program shader_program(vertex_shader, fragment_shader);
+    Resource_Manager resource_manager(argv[0]);
+    auto pDefault_Shader_Program = resource_manager.load_shaders("Defalt_Shader", 
+        "res" + resource_manager.get_path_symbol() + "shaders" + resource_manager.get_path_symbol() + "vertex_shader.txt",
+        "res" + resource_manager.get_path_symbol() + "shaders" + resource_manager.get_path_symbol() + "fragment_shader.txt");
+    if (!pDefault_Shader_Program) {
+        std::cerr << "Can`t create shader program: " << "Default_Shader" << std::endl;
+        return -1;
+    }
+
+    std::string vertex_shader;//(::vertex_shader);
+        std::string fragment_shader;//(::fragment_shader);
+    Render::Shader_Program shader_program(vertex_shader, fragment_shader);
     if (!shader_program.is_compiled()) {
         std::cerr << "Can`t creat shader program"<<std::endl;
         return -1;
@@ -111,7 +104,9 @@ int main(void)
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
     /* Loop until the user closes the window */
-    update_screen(pWindow,shader_program, vao);
+    Render::update_screen(pWindow, pDefault_Shader_Program, vao);
+
+    resource_manager.~Resource_Manager();
 
     glfwTerminate();
     return 0;

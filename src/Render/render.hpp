@@ -6,5 +6,7 @@
 
 
 
-
-void update_screen(GLFWwindow* pWindow, Shader_Program& shader_program, GLuint& vao);
+namespace Render {
+	void update_screen(GLFWwindow* pWindow, std::shared_ptr<Render::Shader_Program> shader_program, GLuint& vao);
+	class Shader_Program;
+}
