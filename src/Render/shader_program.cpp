@@ -12,7 +12,7 @@ namespace Render {
 		}
 
 		GLuint fragment_shader_ID;
-		if (!create_shader(fragment_shader, GL_VERTEX_SHADER, fragment_shader_ID)) {
+		if (!create_shader(fragment_shader, GL_FRAGMENT_SHADER, fragment_shader_ID)) {
 			std::cerr << "FRAGMENT SHADER compile time error" << std::endl;
 			glDeleteShader(vertex_shader_ID);
 			return;
