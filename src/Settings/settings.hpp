@@ -12,8 +12,8 @@ public:
 	void set_y_window_size(int y);
 
 private:
-	int x_window_size = 640;
-	int y_window_size = 480;
+	int x_window_size = 1280;
+	int y_window_size = 720;
 
 public:
 	~Settings() = default;

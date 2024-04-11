@@ -16,6 +16,7 @@ namespace Render {
 	public:
 		bool is_compiled() const;
 		void use() const;
+		GLuint get_shader_program_ID();
 
 	private:
 		bool create_shader(const std::string& source, const GLenum shader_type, GLuint& shader_ID);

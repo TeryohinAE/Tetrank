@@ -15,11 +15,12 @@ namespace Render {
         {
             last_frame = std::chrono::steady_clock::now();
             /* Render here */
+            glClearColor(0.9f, 0.9f, 0.9f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
 
             shader_program->use();
             glBindVertexArray(vao);
-            glDrawArrays(GL_TRIANGLES, 0, 3);
+            glDrawElements(GL_TRIANGLES, 24, GL_UNSIGNED_INT, 0);
 
             /* Swap front and back buffers */
             glfwSwapBuffers(pWindow);

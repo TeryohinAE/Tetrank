@@ -69,6 +69,11 @@ namespace Render {
 		glUseProgram(shader_program_ID);
 	}
 
+	GLuint Shader_Program::get_shader_program_ID()
+	{
+		return shader_program_ID;
+	}
+
 	bool Shader_Program::create_shader(const std::string& source, const GLenum shader_type, GLuint& shader_ID)
 	{
 		shader_ID = glCreateShader(shader_type);
