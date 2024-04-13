@@ -7,47 +7,6 @@
 #include "Event_system/event_system.hpp"
 #include "Resorce_manager/resource_manager.hpp"
 
-GLuint indeces[] = {
-    0,2,4,
-    0,4,6,
-    6,10,1,
-    6,8,10,
-    9,11,3,
-    4,9,3,
-    1,3,5,
-    1,5,7
-};
-
-GLfloat point[] = {
-    -0.45f,  0.8f,
-    -0.45f,  -0.4f,
-
-    0.45f,   0.8f,
-    0.45f,   -0.4f,
-
-    0.45f,   0.4f,
-    0.45f,   -0.8f,
-
-    -0.45f,  0.4f,
-    -0.45f,  -0.8f,
-
-    -0.225f,  0.4f,
-    0.225f,   0.4f,
-
-    -0.225f,  -0.4f,
-    0.225f,   -0.4f
-};
-GLfloat colors[] = {
-    1.0f,   0.0f,   0.0f,
-    0.0f,   1.0f,   0.0f,
-    0.0f,   0.0f,   1.0f
-};
-
-GLfloat color[] = {
-    1.0f,   0.0f,   0.0f
-};
-
-
 int main(int argc, char** argv)
 {
 
@@ -108,40 +67,21 @@ int main(int argc, char** argv)
     //    return -1;
     //}
 
-    GLuint points_vbo = 0;
-    glGenBuffers(1, &points_vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, points_vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(point), point, GL_STATIC_DRAW);
-
-    GLuint colors_vbo = 0;
-    glGenBuffers(1, &colors_vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, colors_vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
-
     int vertexColorLocation = glGetUniformLocation(pDefault_Shader_Program->get_shader_program_ID(), "Color");
-    pDefault_Shader_Program->use();
-    glUniform3f(vertexColorLocation, color[0], color[1], color[2]);
 
-    GLuint ebo;
-    glGenBuffers(1, &ebo);
+    GLuint vao_player = 0;
+    GLuint points_player_vbo = 0;  
+    GLuint ebo_player;
 
-    GLuint vao = 0;
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
+    GLuint vao_wall = 0;
+    GLuint points_wall_vbo = 0;
+    GLuint ebo_wall;
 
-    glBindBuffer(GL_ARRAY_BUFFER, points_vbo);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
-    glEnableVertexAttribArray(0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, colors_vbo);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
-    glEnableVertexAttribArray(1);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indeces), indeces, GL_STATIC_DRAW);
+    init_VO(vao_player, points_player_vbo, ebo_player, pDefault_Shader_Program, Player, vertexColorLocation);
+    init_VO(vao_wall, points_wall_vbo, ebo_wall, pDefault_Shader_Program, Wall, vertexColorLocation);
 
     /* Loop until the user closes the window */
-    Render::update_screen(pWindow, pDefault_Shader_Program, vao);
+    Render::update_screen(pWindow, pDefault_Shader_Program, vao_player, settings.get_limit_frame(), Player, vertexColorLocation);
    // resource_manager.~Resource_Manager();
 
     glfwTerminate();

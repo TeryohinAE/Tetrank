@@ -14,3 +14,8 @@ void Settings::set_x_window_size(int x) {
 void Settings::set_y_window_size(int y) {
 	this->y_window_size = y;
 }
+
+int Settings::get_limit_frame()
+{
+	return limit_frame;
+}

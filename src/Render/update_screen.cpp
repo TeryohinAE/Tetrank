@@ -4,9 +4,16 @@
 
 namespace Render {
 
-    int limit_frame = 60;
-
-    void update_screen(GLFWwindow* pWindow, std::shared_ptr<Render::Shader_Program> shader_program, GLuint& vao) {
+    void update_screen( GLFWwindow* pWindow, std::shared_ptr<Render::Shader_Program> shader_program, GLuint& vao, int limit_frame,
+                        Primitiv primitiv_type, int& vertexColorLocation)
+    {
+        shader_program->use();
+        if (primitiv_type == Player) {
+            glUniform3f(vertexColorLocation, color_player_primitiv[0], color_player_primitiv[1], color_player_primitiv[2]);
+        }
+        if (primitiv_type == Wall) {
+            glUniform3f(vertexColorLocation, color_wall_primitiv[0], color_wall_primitiv[1], color_wall_primitiv[2]);
+        }
 
         std::chrono::microseconds frame_time((1000 / limit_frame));
         auto last_frame = std::chrono::steady_clock::now();

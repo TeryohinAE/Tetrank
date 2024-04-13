@@ -11,9 +11,13 @@ public:
 	void set_x_window_size(int x);
 	void set_y_window_size(int y);
 
+	int get_limit_frame();
+	void set_limit_frame();
+
 private:
 	int x_window_size = 1280;
 	int y_window_size = 720;
+	int limit_frame = 60;
 
 public:
 	~Settings() = default;
