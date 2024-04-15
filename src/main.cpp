@@ -2,6 +2,7 @@
 #include <string>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/mat4x4.hpp>
 #include "Render/render.hpp"
 #include "Settings/settings.hpp"
 #include "Event_system/event_system.hpp"
@@ -80,8 +81,10 @@ int main(int argc, char** argv)
     init_VO(vao_player, points_player_vbo, ebo_player, pDefault_Shader_Program, Player, vertexColorLocation);
     init_VO(vao_wall, points_wall_vbo, ebo_wall, pDefault_Shader_Program, Wall, vertexColorLocation);
 
+    Model player(vao_player, 24, player_matrix, 6, pDefault_Shader_Program);
+
     /* Loop until the user closes the window */
-    Render::update_screen(pWindow, pDefault_Shader_Program, vao_player, settings.get_limit_frame(), Player, vertexColorLocation);
+    Render::update_screen(pWindow, pDefault_Shader_Program, vao_player, settings.get_limit_frame(), Player, vertexColorLocation, player);
    // resource_manager.~Resource_Manager();
 
     glfwTerminate();

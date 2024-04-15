@@ -3,7 +3,6 @@
 #include <glad/glad.h>
 #include "render.hpp"
 
-
 enum Primitiv { Player, Wall };
 
 

@@ -5,7 +5,7 @@
 namespace Render {
 
     void update_screen( GLFWwindow* pWindow, std::shared_ptr<Render::Shader_Program> shader_program, GLuint& vao, int limit_frame,
-                        Primitiv primitiv_type, int& vertexColorLocation)
+                        Primitiv primitiv_type, int& vertexColorLocation, Model& model)
     {
         shader_program->use();
         if (primitiv_type == Player) {
@@ -25,9 +25,7 @@ namespace Render {
             glClearColor(0.9f, 0.9f, 0.9f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
 
-            shader_program->use();
-            glBindVertexArray(vao);
-            glDrawElements(GL_TRIANGLES, 24, GL_UNSIGNED_INT, 0);
+            model.draw(vao);
 
             /* Swap front and back buffers */
             glfwSwapBuffers(pWindow);
