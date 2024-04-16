@@ -1,6 +1,8 @@
 #version 460
 layout(location = 0) in vec2 vertex_pos;
 uniform mat4 model_matrix;
+uniform mat4 scale_matrix;
+uniform mat4 position_matrix;
 void main() {
-   gl_Position = model_matrix * vec4(vertex_pos, 1.0, 1.0);
+   gl_Position = position_matrix * scale_matrix * model_matrix * vec4(vertex_pos, 1.0, 1.0);
 }

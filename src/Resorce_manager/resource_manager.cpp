@@ -43,6 +43,7 @@ std::shared_ptr<Render::Shader_Program> Resource_Manager::load_shaders(const std
 			<< "Frafment: " << fragment_path << std::endl;
 		return nullptr;
 	}
+	//names_shaders.push_back(shader_program_name);
 	return new_shader;
 }
 
@@ -75,4 +76,9 @@ std::string Resource_Manager::get_string_file_path(const std::string& relative_f
 	std::stringstream buffer;
 	buffer << f.rdbuf();
 	return buffer.str();
+}
+
+Resource_Manager::~Resource_Manager()
+{
+	shader_program_map.clear();
 }

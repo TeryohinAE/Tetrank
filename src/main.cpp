@@ -1,3 +1,5 @@
+#include "Game/player.hpp"
+
 #include <iostream>
 #include <string>
 #include <glad/glad.h>
@@ -78,15 +80,17 @@ int main(int argc, char** argv)
     GLuint points_wall_vbo = 0;
     GLuint ebo_wall;
 
-    init_VO(vao_player, points_player_vbo, ebo_player, pDefault_Shader_Program, Player, vertexColorLocation);
-    init_VO(vao_wall, points_wall_vbo, ebo_wall, pDefault_Shader_Program, Wall, vertexColorLocation);
+    init_VO(vao_player, points_player_vbo, ebo_player, pDefault_Shader_Program, PLAYER, vertexColorLocation);
+    init_VO(vao_wall, points_wall_vbo, ebo_wall, pDefault_Shader_Program, WALL, vertexColorLocation);
 
-    Model player(vao_player, 24, player_matrix, 6, pDefault_Shader_Program);
+    Model player(vao_player, 24, player_matrix, pDefault_Shader_Program);
+    Player p1(pDefault_Shader_Program, -0.5f, -0.5f, vao_player, "00000");
 
     /* Loop until the user closes the window */
-    Render::update_screen(pWindow, pDefault_Shader_Program, vao_player, settings.get_limit_frame(), Player, vertexColorLocation, player);
-   // resource_manager.~Resource_Manager();
+    Render::update_screen(pWindow, vao_player, settings.get_limit_frame(), p1);
 
+    //pDefault_Shader_Program.~shared_ptr();
+    //resource_manager.~Resource_Manager();
     glfwTerminate();
     return 0;
 }

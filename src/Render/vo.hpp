@@ -3,7 +3,7 @@
 #include <glad/glad.h>
 #include "render.hpp"
 
-enum Primitiv { Player, Wall };
+enum Primitiv { PLAYER, WALL };
 
 
 static GLuint indeces_player_primitiv[] = {

@@ -4,16 +4,16 @@
 #include <GLFW/glfw3.h>
 #include "shader_program.hpp"
 #include "vo.hpp"
-#include "model.hpp"
+#include "../Game/player.hpp"
 
 
 enum Primitiv;
 enum Model_Direction;
-
 class Model;
+class Player;
+
 namespace Render {
-	void update_screen(	GLFWwindow* pWindow, std::shared_ptr<Render::Shader_Program> shader_program, GLuint& vao, int limit_frame,
-						Primitiv primitiv_type, int& vertexColorLocation, Model& model);
+	void update_screen(GLFWwindow* pWindow, GLuint& vao, int limit_frame, Player& p1);
 	class Shader_Program;
 }
 
