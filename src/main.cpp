@@ -1,4 +1,4 @@
-#include "Game/player.hpp"
+#include "Game/game_objects.hpp"
 
 #include <iostream>
 #include <string>
@@ -83,11 +83,14 @@ int main(int argc, char** argv)
     init_VO(vao_player, points_player_vbo, ebo_player, pDefault_Shader_Program, PLAYER, vertexColorLocation);
     init_VO(vao_wall, points_wall_vbo, ebo_wall, pDefault_Shader_Program, WALL, vertexColorLocation);
 
-    Model player(vao_player, 24, player_matrix, pDefault_Shader_Program);
     Player p1(pDefault_Shader_Program, -0.5f, -0.5f, vao_player, "00000");
+    Player p2(pDefault_Shader_Program, -0.5f, 0.5f, vao_player, "sam");
+    Player p3(pDefault_Shader_Program, 0.5f, -0.5f, vao_player, "bob");
+    Player p4(pDefault_Shader_Program, 0.5f, 0.5f, vao_player, "scot");
+
 
     /* Loop until the user closes the window */
-    Render::update_screen(pWindow, vao_player, settings.get_limit_frame(), p1);
+    Render::update_screen(pWindow, vao_player, settings.get_limit_frame(), p1, p2, p3, p4);
 
     //pDefault_Shader_Program.~shared_ptr();
     //resource_manager.~Resource_Manager();

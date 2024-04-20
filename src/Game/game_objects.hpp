@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <memory>
+#define GLM_ENABLE_EXPERIMENTAL
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <memory>
@@ -13,14 +14,6 @@ enum Model_Direction { UP, DOWN, LEFT, RIGHT };
 
 static glm::mat4 matrix_indentity = glm::mat4(1.0f);
 
-static std::vector<glm::mat4> player_matrix{
-	glm::translate(matrix_indentity, glm::vec3(0.0f, 0.0f, 0.0f)),
-		glm::translate(matrix_indentity, glm::vec3(0.0f, 0.425f, 0.0f)),
-		glm::translate(matrix_indentity, glm::vec3(-0.239f, 0.0f, 0.0f)),
-		glm::translate(matrix_indentity, glm::vec3(0.239f, 0.0f, 0.0f)),
-		glm::translate(matrix_indentity, glm::vec3(-0.239f, -0.425f, 0.0f)),
-		glm::translate(matrix_indentity, glm::vec3(0.239f, -0.425f, 0.0f))
-};
 
 class Model final {
 public:
@@ -35,7 +28,7 @@ public:
 
 public:
 	void draw(GLuint& vao);
-	void set_model_direction(Model_Direction move_direction);
+	void set_new_model(std::vector<glm::mat4> new_model);
 
 private:
 	std::shared_ptr<Render::Shader_Program> pModel_Shader_Program;
@@ -51,6 +44,12 @@ public:
 	~Model();
 };
 
+
+
+
+
+
+
 class Player {
 public:
 	Player() = delete;
@@ -64,6 +63,7 @@ public:
 public:
 	void draw(GLuint& vao);
 
+
 	void press_keycap();
 	void move();
 	void shoot();
@@ -75,7 +75,15 @@ private:
 	int scale_matrix_location;
 	int position_matrix_location;
 
-	static std::vector<glm::mat4> model_matrix;
+	static std::vector<glm::vec3> Player::model_primitivs;
+	std::vector<glm::mat4> model_matrix = {
+	glm::translate(glm::mat4(1.0f), model_primitivs[0]),
+	glm::translate(glm::mat4(1.0f), model_primitivs[1]),
+	glm::translate(glm::mat4(1.0f), model_primitivs[2]),
+	glm::translate(glm::mat4(1.0f), model_primitivs[3]),
+	glm::translate(glm::mat4(1.0f), model_primitivs[4]),
+	glm::translate(glm::mat4(1.0f), model_primitivs[5])
+	};
 	static glm::mat4 speed; //TODO
 	GLfloat color[3];
 	std::shared_ptr<Render::Shader_Program> pModel_Shader_Program;
@@ -95,6 +103,8 @@ private:
 	std::string nickname;
 	Model_Direction player_direction;
 	bool alive = false;
+
+	void rotate(Model_Direction direction);
 
 public:
 	~Player();

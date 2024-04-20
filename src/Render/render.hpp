@@ -4,7 +4,7 @@
 #include <GLFW/glfw3.h>
 #include "shader_program.hpp"
 #include "vo.hpp"
-#include "../Game/player.hpp"
+#include "../Game/game_objects.hpp"
 
 
 enum Primitiv;
@@ -13,7 +13,7 @@ class Model;
 class Player;
 
 namespace Render {
-	void update_screen(GLFWwindow* pWindow, GLuint& vao, int limit_frame, Player& p1);
+	void update_screen(GLFWwindow* pWindow, GLuint& vao, int limit_frame, Player& p1, Player& p2, Player& p3, Player& p4);
 	class Shader_Program;
 }
 

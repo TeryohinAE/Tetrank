@@ -1,6 +1,9 @@
-#include "player.hpp"
+#include "game_objects.hpp"
 #include <iostream>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/rotate_vector.hpp>
+
+
 
 
 Model::Model(GLuint& vao, int quantity_points_primitiv, std::vector<glm::mat4> model_matrix,
@@ -29,8 +32,13 @@ void Model::draw(GLuint& vao)
 	}
 }
 
-void Model::set_model_direction(Model_Direction move_direction)
+
+
+void Model::set_new_model(std::vector<glm::mat4> new_model)
 {
+	for (int i = 0; i < model_matrix.size(); i++) {
+		model_matrix[i] = new_model[i] * model_scaling;
+	}
 }
 
 Model::~Model() {
@@ -43,6 +51,17 @@ glm::mat4x4 Model::model_scaling = {
 {0.0f,0.0f,1.0f,0.0f},
 {0.0f,0.0f,0.0f,1.0f}
 };
+
+
+
+
+glm::mat4x4 for_rotate = {
+	{1.77777778f,0.0f,0.0f,0.0f},
+	{0.0f,0.5625f,0.0f,0.0f},
+	{0.0f,0.0f,1.0f,0.0f},
+	{0.0f,0.0f,0.0f,1.0f}
+};
+
 
 Player::Player(std::shared_ptr<Render::Shader_Program> pShader_program, float spawnpoint_x, float spawnpoint_y, GLuint& vao, std::string nickname)
 	: model_player(vao, quantity_points_primitiv, model_matrix, pModel_Shader_Program),
@@ -63,7 +82,7 @@ Player::Player(std::shared_ptr<Render::Shader_Program> pShader_program, float sp
 		color[0] = 0.0f;
 		color[1] = 0.0f;
 		color[2] = 1.0f;
-		player_direction = DOWN;
+		rotate(DOWN);
 	}
 	if (counter_players == 3) {
 		color[0] = 0.0f;
@@ -73,10 +92,11 @@ Player::Player(std::shared_ptr<Render::Shader_Program> pShader_program, float sp
 	}
 	if (counter_players == 4) {
 		color[0] = 1.0f;
-		color[1] = 1.0f;
-		color[2] = 0.0f;
-		player_direction = DOWN;
+		color[1] = 0.0f;
+		color[2] = 0.8f;
+		rotate(DOWN);
 	}
+
 
 	position = glm::translate(glm::mat4(1.0f), glm::vec3(spawnpoint_x, spawnpoint_y, 0.0f));
 
@@ -95,6 +115,8 @@ void Player::draw(GLuint& vao)
 	model_player.draw(vao);
 }
 
+
+
 Player::~Player()
 {
 	counter_players--;
@@ -104,11 +126,42 @@ Player::~Player()
 
 unsigned int Player::counter_players = 0;
 
-std::vector<glm::mat4> Player::model_matrix = {
-	glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f)),
-	glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.425f, 0.0f)),
-	glm::translate(glm::mat4(1.0f), glm::vec3(-0.239f, 0.0f, 0.0f)),
-	glm::translate(glm::mat4(1.0f), glm::vec3(0.239f, 0.0f, 0.0f)),
-	glm::translate(glm::mat4(1.0f), glm::vec3(-0.239f, -0.425f, 0.0f)),
-	glm::translate(glm::mat4(1.0f), glm::vec3(0.239f, -0.425f, 0.0f))
+std::vector<glm::vec3> Player::model_primitivs = {
+	glm::vec3(0.0f, 0.0f, 0.0f),
+	glm::vec3(0.0f, 0.425f, 0.0f),
+	glm::vec3(-0.239f, 0.0f, 0.0f),
+	glm::vec3(0.239f, 0.0f, 0.0f),
+	glm::vec3(-0.239f, -0.425f, 0.0f),
+	glm::vec3(0.239f, -0.425f, 0.0f)
 };
+
+void Player::rotate(Model_Direction direction)
+{
+	for (int i = 0; i < model_matrix.size(); i++) {
+		model_matrix[i] = glm::translate(glm::mat4(1.0f), model_primitivs[i]);
+	}
+	player_direction = UP;
+	if (direction == LEFT) {
+		glm::vec3 a;
+		for (int i = 0; i < model_matrix.size(); i++) {
+			a = glm::vec4(for_rotate * glm::vec4(model_primitivs[i], 1.0f));
+			model_matrix[i] = glm::translate(glm::mat4(1.0f), glm::rotateZ(a, 1.57f));
+		}
+		player_direction = LEFT;
+	};
+	if (direction == RIGHT) {
+		glm::vec3 a;
+		for (int i = 0; i < model_matrix.size(); i++) {
+			a = glm::vec4(for_rotate * glm::vec4(model_primitivs[i], 1.0f));
+			model_matrix[i] = glm::translate(glm::mat4(1.0f), glm::rotateZ(a, 4.71f));
+		}
+		player_direction = RIGHT;
+	};
+	if (direction == DOWN) {
+		for (int i = 0; i < model_matrix.size(); i++) {
+			model_matrix[i] = glm::translate(glm::mat4(1.0f), glm::rotateZ(model_primitivs[i], 3.14f));
+		}
+		player_direction = DOWN;
+	}
+	model_player.set_new_model(model_matrix);
+}

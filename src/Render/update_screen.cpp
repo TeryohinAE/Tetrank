@@ -4,7 +4,7 @@
 
 namespace Render {
 
-    void update_screen( GLFWwindow* pWindow, GLuint& vao, int limit_frame, Player &p1)
+    void update_screen( GLFWwindow* pWindow, GLuint& vao, int limit_frame, Player& p1, Player& p2, Player& p3, Player& p4)
     {
         std::chrono::microseconds frame_time((1000 / limit_frame));
         auto last_frame = std::chrono::steady_clock::now();
@@ -17,8 +17,9 @@ namespace Render {
             glClear(GL_COLOR_BUFFER_BIT);
 
             p1.draw(vao);
-
-            
+            p2.draw(vao);
+            p3.draw(vao);
+            p4.draw(vao);
 
             /* Swap front and back buffers */
             glfwSwapBuffers(pWindow);
