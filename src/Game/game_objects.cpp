@@ -36,8 +36,9 @@ void Model::draw(GLuint& vao)
 
 void Model::set_new_model(std::vector<glm::mat4> new_model)
 {
-	for (int i = 0; i < model_matrix.size(); i++) {
-		model_matrix[i] = new_model[i] * model_scaling;
+	model_matrix.clear();
+	for (int i = 0; i < new_model.size(); i++) {
+		model_matrix.push_back(new_model[i] * model_scaling);
 	}
 }
 
@@ -63,9 +64,10 @@ glm::mat4x4 for_rotate = {
 };
 
 
-Player::Player(std::shared_ptr<Render::Shader_Program> pShader_program, float spawnpoint_x, float spawnpoint_y, GLuint& vao, std::string nickname)
+Player::Player(std::shared_ptr<Render::Shader_Program> pShader_program, float spawnpoint_x, float spawnpoint_y, GLuint& vao,
+	std::string nickname, glm::mat4x4 scale)
 	: model_player(vao, quantity_points_primitiv, model_matrix, pModel_Shader_Program),
-	pModel_Shader_Program(pShader_program), nickname(nickname), alive(true)
+	pModel_Shader_Program(pShader_program), nickname(nickname), alive(true), scale_player_model (scale)
 {
 	if (counter_players >= 4) {
 		std::cerr << "Error: 5player" << std::endl;
@@ -113,6 +115,10 @@ void Player::draw(GLuint& vao)
 	glUniformMatrix4fv(scale_matrix_location, 1, GL_FALSE, glm::value_ptr(scale_player_model));
 	glUniformMatrix4fv(position_matrix_location, 1, GL_FALSE, glm::value_ptr(position));
 	model_player.draw(vao);
+}
+
+void Player::press_keycap(GLFWwindow* pWindow, int key, int scancode, int action, int mode)
+{
 }
 
 
@@ -165,3 +171,8 @@ void Player::rotate(Model_Direction direction)
 	}
 	model_player.set_new_model(model_matrix);
 }
+
+
+
+
+

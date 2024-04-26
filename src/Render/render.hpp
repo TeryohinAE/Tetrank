@@ -11,9 +11,11 @@ enum Primitiv;
 enum Model_Direction;
 class Model;
 class Player;
+class Map;
 
 namespace Render {
-	void update_screen(GLFWwindow* pWindow, GLuint& vao, int limit_frame, Player& p1, Player& p2, Player& p3, Player& p4);
+	void update_screen(GLFWwindow* pWindow, GLuint& vao, int limit_frame, Player& p1, Player& p2, Player& p3, Player& p4, 
+		Map& current_map, GLuint& vao_wall);
 	class Shader_Program;
 }
 

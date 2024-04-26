@@ -17,8 +17,8 @@ static glm::mat4 matrix_indentity = glm::mat4(1.0f);
 
 class Model final {
 public:
-	Model() = default;
-	Model(Model&) = default;
+	Model() = delete;
+	Model(Model&) = delete;
 	Model& operator = (const Model&) = delete;
 	Model& operator = (Model&& Model) noexcept = delete;
 	Model(Model&& Model) noexcept = delete;
@@ -50,7 +50,7 @@ public:
 
 
 
-class Player {
+class Player final{
 public:
 	Player() = delete;
 	Player(Player&) = delete;
@@ -58,13 +58,14 @@ public:
 	Player& operator = (Player&& Player) noexcept = delete;
 	Player(Player&& Player) noexcept = delete;
 
-	Player(std::shared_ptr<Render::Shader_Program> pShader_program, float spawnpoint_x, float spawnpoint_y, GLuint& vao, std::string nickname);
+	Player(std::shared_ptr<Render::Shader_Program> pShader_program, float spawnpoint_x, float spawnpoint_y, GLuint& vao, std::string nickname,
+		glm::mat4x4 scale);
 
 public:
 	void draw(GLuint& vao);
 
 
-	void press_keycap();
+	static void press_keycap(GLFWwindow* pWindow, int key, int scancode, int action, int mode);
 	void move();
 	void shoot();
 
@@ -102,10 +103,56 @@ private:
 
 	std::string nickname;
 	Model_Direction player_direction;
+	int score = 0;
 	bool alive = false;
 
 	void rotate(Model_Direction direction);
 
 public:
 	~Player();
+};
+
+
+
+
+
+
+
+class Map final{
+public:
+	Map() = delete;
+	Map(Map&) = delete;
+	Map& operator = (const Map&) = delete;
+	Map& operator = (Map&& Map) noexcept = delete;
+	Map(Map&& Map) noexcept = delete;
+
+	Map(std::vector<std::vector<char>> &map, GLuint &vao, std::shared_ptr<Render::Shader_Program> pShader_program);
+
+public:
+	std::vector<std::vector<char>> get_map();
+	glm::mat4x4 get_scale_models();
+	float get_player_spawnpoint(int num_player, char x_or_y);
+	void draw(GLuint& vao);
+
+private:
+	std::vector<std::vector<char>> map;
+	glm::mat4x4 scale_model;
+	std::vector<glm::mat4> model_matrix{glm::mat4(1.0f)};
+	unsigned int quantity_primitivs = 0;
+	float spawn_player1[2];
+	float spawn_player2[2];
+	float spawn_player3[2];
+	float spawn_player4[2];
+	const int quantity_points_primitiv = 24;
+	static GLfloat color[3];
+	std::shared_ptr<Render::Shader_Program> pShader_program;
+
+	Model model;
+
+	int vertexColorLocation;
+	int scale_matrix_location;
+	int position_matrix_location;
+
+public:
+	~Map();
 };
