@@ -5,6 +5,7 @@
 #include "shader_program.hpp"
 #include "vo.hpp"
 #include "../Game/game_objects.hpp"
+#include "../Game/game_manager.hpp"
 
 
 enum Primitiv;
@@ -12,10 +13,10 @@ enum Model_Direction;
 class Model;
 class Player;
 class Map;
+class Game_Manager;
 
 namespace Render {
-	void update_screen(GLFWwindow* pWindow, GLuint& vao, int limit_frame, Player& p1, Player& p2, Player& p3, Player& p4, 
-		Map& current_map, GLuint& vao_wall);
+	void update_screen(GLFWwindow* pWindow, GLuint& vao, int limit_frame, Game_Manager& game_manager, GLuint& vao_wall);
 	class Shader_Program;
 }
 

@@ -8,7 +8,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <memory>
 #include "render.hpp"
-
 enum Model_Direction { UP, DOWN, LEFT, RIGHT };
 
 

@@ -7,12 +7,12 @@
 
 Resource_Manager::Resource_Manager(const std::string& executable_path)
 {
-	if (executable_path.find_last_of("/")) {
+	if (executable_path.find('/') != executable_path.npos) {
 		res_path = executable_path.substr(0, executable_path.find_last_of("/"));
 		path_symbol = "/";
 	}
 	
-	if (executable_path.find_last_of("\\")) {
+	if (executable_path.find('\\') != executable_path.npos) {
 		res_path = executable_path.substr(0, executable_path.find_last_of("\\"));
 		path_symbol = "\\";
 	}

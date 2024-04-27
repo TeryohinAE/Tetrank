@@ -1,5 +1,5 @@
 #include "Game/game_objects.hpp"
-
+#include "Game/game_manager.hpp"
 #include <iostream>
 #include <string>
 #include <glad/glad.h>
@@ -12,31 +12,7 @@
 
 
 
-std::vector<std::vector<char>> map = {
-    {'w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w'},
-    {'w','v','v','v','v','v','v','v','v','v','v','w','v','v','v','v','v','v','v','v','v','v','w'},
-    {'w','v','v','v','v','v','v','v','v','v','v','w','v','v','v','v','v','v','v','v','v','v','w'},
-    {'w','v','p','p','p','v','v','v','v','v','v','w','v','v','v','v','v','p','p','p','v','v','w'},
-    {'w','v','p','p','p','v','v','v','v','v','v','w','v','v','v','v','v','p','p','p','v','v','w'},
-    {'w','v','p','p','p','v','v','v','v','v','v','w','v','v','v','v','v','p','p','p','v','v','w'},
-    {'w','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','w'},
-    {'w','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','w'},
-    {'w','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','w'},
-    {'w','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','w'},
-    {'w','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','w'},
-    {'w','w','w','w','w','w','v','v','v','v','v','v','v','v','v','v','v','w','w','w','w','w','w'},    
-    {'w','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','w'},
-    {'w','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','w'},
-    {'w','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','w'},
-    {'w','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','w'},
-    {'w','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','v','w'},
-    {'w','v','p','p','p','v','v','v','v','v','v','w','v','v','v','v','v','p','p','p','v','v','w'},
-    {'w','v','p','p','p','v','v','v','v','v','v','w','v','v','v','v','v','p','p','p','v','v','w'},
-    {'w','v','p','p','p','v','v','v','v','v','v','w','v','v','v','v','v','p','p','p','v','v','w'},
-    {'w','v','v','v','v','v','v','v','v','v','v','w','v','v','v','v','v','v','v','v','v','v','w'},
-    {'w','v','v','v','v','v','v','v','v','v','v','w','v','v','v','v','v','v','v','v','v','v','w'},
-    {'w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w'}
-};
+
 
 
 
@@ -114,19 +90,17 @@ int main(int argc, char** argv)
     init_VO(vao_player, points_player_vbo, ebo_player, pDefault_Shader_Program, PLAYER, vertexColorLocation);
     init_VO(vao_wall, points_wall_vbo, ebo_wall, pDefault_Shader_Program, WALL, vertexColorLocation);
 
-    Map dust2(map, vao_wall, pDefault_Shader_Program);
+    Game_Manager game_manager(pDefault_Shader_Program, vao_wall);
 
-    Player p1(pDefault_Shader_Program, dust2.get_player_spawnpoint(1, 'x'), dust2.get_player_spawnpoint(1, 'y'), vao_player, "00000", dust2.get_scale_models());
-    Player p2(pDefault_Shader_Program, dust2.get_player_spawnpoint(2, 'x'), dust2.get_player_spawnpoint(2, 'y'), vao_player, "sam", dust2.get_scale_models());
-    Player p3(pDefault_Shader_Program, dust2.get_player_spawnpoint(3, 'x'), dust2.get_player_spawnpoint(3, 'y'), vao_player, "bob", dust2.get_scale_models());
-    Player p4(pDefault_Shader_Program, dust2.get_player_spawnpoint(4, 'x'), dust2.get_player_spawnpoint(4, 'y'), vao_player, "scot", dust2.get_scale_models());
-
-
+    game_manager.add_player(vao_player, "00000");
+    game_manager.add_player(vao_player, "sam");
+    game_manager.add_player(vao_player, "bob");
+    game_manager.add_player(vao_player, "scot");
 
 
 
     /* Loop until the user closes the window */
-    Render::update_screen(pWindow, vao_player, settings.get_limit_frame(), p1, p2, p3, p4, dust2, vao_wall);
+    Render::update_screen(pWindow, vao_player, settings.get_limit_frame(), game_manager, vao_wall);
 
     //pDefault_Shader_Program.~shared_ptr();
     //resource_manager.~Resource_Manager();

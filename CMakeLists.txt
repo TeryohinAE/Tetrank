@@ -52,7 +52,7 @@ add_library (Event_system STATIC src/Event_system/event_system.hpp src/Event_sys
 add_library (Render STATIC	src/Render/render.hpp src/Render/update_screen.cpp src/Render/shader_program.hpp src/Render/shader_program.cpp
 							src/Render/vo.hpp src/Render/vo.cpp)
 add_library (Resource_Manager STATIC src/Resorce_manager/resource_manager.hpp src/Resorce_manager/resource_manager.cpp)
-add_library (Game STATIC src/Game/game_objects.hpp src/Game/game_objects.cpp src/Game/wall.cpp)
+add_library (Game STATIC src/Game/game_objects.hpp src/Game/game_objects.cpp src/Game/wall.cpp src/Game/game_manager.hpp src/Game/game_manager.cpp) 
 add_executable(${PROJECT_NAME} src/main.cpp)
 target_link_libraries(Event_system PUBLIC Settings glfw glad)
 target_link_libraries(Render PUBLIC Settings glfw glad glm Game)
