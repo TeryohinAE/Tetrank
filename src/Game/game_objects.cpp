@@ -117,6 +117,34 @@ void Player::draw(GLuint& vao)
 	model_player.draw(vao);
 }
 
+GLfloat Player::get_red()
+{
+	GLfloat temp = color[0];
+	return temp;
+}
+
+GLfloat Player::get_green()
+{
+	GLfloat temp = color[1];
+	return temp;
+}
+
+GLfloat Player::get_blue()
+{
+	GLfloat temp = color[2];
+	return temp;
+}
+
+bool Player::is_alive()
+{
+	return alive;
+}
+
+std::string Player::get_nickname()
+{
+	return nickname;
+}
+
 void Player::press_keycap(GLFWwindow* pWindow, int key, int scancode, int action, int mode)
 {
 }

@@ -1,5 +1,6 @@
 #include "Game/game_objects.hpp"
 #include "Game/game_manager.hpp"
+#include "Game/text.hpp"
 #include <iostream>
 #include <string>
 #include <glad/glad.h>
@@ -17,8 +18,10 @@
 
 
 
+
 int main(int argc, char** argv)
 {
+    setlocale(LC_ALL, "Russian");
 
     /* Initialize the library */
     if (!glfwInit()) {
@@ -69,15 +72,7 @@ int main(int argc, char** argv)
         return -1;
     }
 
-    //std::string vertex_shader;//(::vertex_shader);
-    //    std::string fragment_shader;//(::fragment_shader);
-    //Render::Shader_Program shader_program(vertex_shader, fragment_shader);
-    //if (!shader_program.is_compiled()) {
-    //    std::cerr << "Can`t creat shader program"<<std::endl;
-    //    return -1;
-    //}
 
-    int vertexColorLocation = glGetUniformLocation(pDefault_Shader_Program->get_shader_program_ID(), "Color");
 
     GLuint vao_player = 0;
     GLuint points_player_vbo = 0;  
@@ -87,23 +82,26 @@ int main(int argc, char** argv)
     GLuint points_wall_vbo = 0;
     GLuint ebo_wall;
 
-    init_VO(vao_player, points_player_vbo, ebo_player, pDefault_Shader_Program, PLAYER, vertexColorLocation);
-    init_VO(vao_wall, points_wall_vbo, ebo_wall, pDefault_Shader_Program, WALL, vertexColorLocation);
+    GLuint vao_text = 0;
+    GLuint points_text_vbo = 0;
+    GLuint ebo_text;
 
-    Game_Manager game_manager(pDefault_Shader_Program, vao_wall);
+    init_VO(vao_player, points_player_vbo, ebo_player, pDefault_Shader_Program, PLAYER);
+    init_VO(vao_wall, points_wall_vbo, ebo_wall, pDefault_Shader_Program, WALL);
+    init_VO(vao_text, points_text_vbo, ebo_text, pDefault_Shader_Program, TEXT);
 
-    game_manager.add_player(vao_player, "00000");
-    game_manager.add_player(vao_player, "sam");
-    game_manager.add_player(vao_player, "bob");
-    game_manager.add_player(vao_player, "scot");
+    Game_Manager game_manager(pDefault_Shader_Program, vao_wall, vao_text);
+
+    game_manager.add_player(vao_player, "00000", vao_text);
+    game_manager.add_player(vao_player, "Это я", vao_text);
+    game_manager.add_player(vao_player, "bob", vao_text);
+    game_manager.add_player(vao_player, "scot", vao_text);
 
 
 
     /* Loop until the user closes the window */
-    Render::update_screen(pWindow, vao_player, settings.get_limit_frame(), game_manager, vao_wall);
+    Render::update_screen(pWindow, vao_player, settings.get_limit_frame(), game_manager, vao_wall, vao_text);
 
-    //pDefault_Shader_Program.~shared_ptr();
-    //resource_manager.~Resource_Manager();
     glfwTerminate();
     return 0;
 }

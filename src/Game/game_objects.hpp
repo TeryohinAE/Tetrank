@@ -62,7 +62,12 @@ public:
 
 public:
 	void draw(GLuint& vao);
-
+	GLfloat get_red();
+	GLfloat get_green();
+	GLfloat get_blue();
+	bool is_alive();
+	void set_alive();
+	std::string get_nickname();
 
 	static void press_keycap(GLFWwindow* pWindow, int key, int scancode, int action, int mode);
 	void move();
@@ -75,7 +80,7 @@ private:
 	int scale_matrix_location;
 	int position_matrix_location;
 
-	static std::vector<glm::vec3> Player::model_primitivs;
+	static std::vector<glm::vec3> model_primitivs;
 	std::vector<glm::mat4> model_matrix = {
 	glm::translate(glm::mat4(1.0f), model_primitivs[0]),
 	glm::translate(glm::mat4(1.0f), model_primitivs[1]),
@@ -102,7 +107,6 @@ private:
 
 	std::string nickname;
 	Model_Direction player_direction;
-	int score = 0;
 	bool alive = false;
 
 	void rotate(Model_Direction direction);

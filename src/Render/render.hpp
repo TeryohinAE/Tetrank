@@ -6,21 +6,16 @@
 #include "vo.hpp"
 #include "../Game/game_objects.hpp"
 #include "../Game/game_manager.hpp"
+#include "../Game/text.hpp"
 
 
-enum Primitiv;
-enum Model_Direction;
-class Model;
-class Player;
-class Map;
 class Game_Manager;
+class Text;
 
 namespace Render {
-	void update_screen(GLFWwindow* pWindow, GLuint& vao, int limit_frame, Game_Manager& game_manager, GLuint& vao_wall);
+	void update_screen(GLFWwindow* pWindow, GLuint& vao_player, int limit_frame, Game_Manager& game_manager, GLuint& vao_wall, GLuint& vao_text);
 	class Shader_Program;
 }
 
-void init_VO(	GLuint& vao, GLuint& vbo, GLuint& ebo, std::shared_ptr<Render::Shader_Program> pCurrent_shader_program,
-				Primitiv type_primitiv, int& vertexColorLocation);
 
 

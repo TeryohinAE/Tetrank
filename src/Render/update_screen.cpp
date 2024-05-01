@@ -4,7 +4,7 @@
 
 namespace Render {
 
-    void update_screen( GLFWwindow* pWindow, GLuint& vao_player, int limit_frame, Game_Manager& game_manager, GLuint& vao_wall)
+    void update_screen( GLFWwindow* pWindow, GLuint& vao_player, int limit_frame, Game_Manager& game_manager, GLuint& vao_wall, GLuint& vao_text)
     {
         std::chrono::microseconds frame_time((1000 / limit_frame));
         auto last_frame = std::chrono::steady_clock::now();
@@ -16,7 +16,8 @@ namespace Render {
             glClearColor(0.9f, 0.9f, 0.9f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
 
-            game_manager.draw_objects(vao_player, vao_wall);
+            game_manager.draw_objects(vao_player, vao_wall, vao_text);
+            //text.draw(vao_text);
 
             /* Swap front and back buffers */
             glfwSwapBuffers(pWindow);
