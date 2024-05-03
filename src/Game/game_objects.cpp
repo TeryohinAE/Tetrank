@@ -65,7 +65,7 @@ glm::mat4x4 for_rotate = {
 
 
 Player::Player(std::shared_ptr<Render::Shader_Program> pShader_program, float spawnpoint_x, float spawnpoint_y, GLuint& vao,
-	std::string nickname, glm::mat4x4 scale)
+	std::string nickname, glm::mat4x4 scale, Model_Direction direction)
 	: model_player(vao, quantity_points_primitiv, model_matrix, pModel_Shader_Program),
 	pModel_Shader_Program(pShader_program), nickname(nickname), alive(true), scale_player_model (scale)
 {
@@ -78,27 +78,24 @@ Player::Player(std::shared_ptr<Render::Shader_Program> pShader_program, float sp
 		color[0] = 1.0f;
 		color[1] = 0.0f;
 		color[2] = 0.0f;
-		player_direction = UP;
 	}
 	if (counter_players == 2) {
 		color[0] = 0.0f;
 		color[1] = 0.0f;
 		color[2] = 1.0f;
-		rotate(DOWN);
 	}
 	if (counter_players == 3) {
 		color[0] = 0.0f;
 		color[1] = 1.0f;
 		color[2] = 0.0f;
-		player_direction = UP;
 	}
 	if (counter_players == 4) {
 		color[0] = 1.0f;
 		color[1] = 0.0f;
 		color[2] = 0.8f;
-		rotate(DOWN);
 	}
 
+	rotate(direction);
 
 	position = glm::translate(glm::mat4(1.0f), glm::vec3(spawnpoint_x, spawnpoint_y, 0.0f));
 
@@ -145,9 +142,32 @@ std::string Player::get_nickname()
 	return nickname;
 }
 
-void Player::press_keycap(GLFWwindow* pWindow, int key, int scancode, int action, int mode)
+void Player::move(Model_Direction direction)
 {
+	if (direction == player_direction) {
+		switch (player_direction)
+		{
+		case UP:
+			position = glm::mat4(glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, (speed * scale_player_model[0][0] * 0.00708333333f), 0.0f))) * position;
+			break;
+		case DOWN:
+			position = glm::mat4(glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, (speed * scale_player_model[0][0] * -0.00708333333f), 0.0f))) * position;
+			break;
+		case LEFT:
+			position = glm::mat4(glm::translate(glm::mat4(1.0f), glm::vec3((speed * scale_player_model[0][0] * -0.00398333333f), 0.0f, 0.0f))) * position;
+			break;
+		case RIGHT:
+			position = glm::mat4(glm::translate(glm::mat4(1.0f), glm::vec3((speed * scale_player_model[0][0] * 0.00398333333f), 0.0f, 0.0f))) * position;
+			break;
+		default:
+			break;
+		}
+	}
+	else {
+		rotate(direction);
+	}
 }
+
 
 
 

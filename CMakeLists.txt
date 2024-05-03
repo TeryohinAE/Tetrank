@@ -47,19 +47,17 @@ include_directories(external/glm-1.0.1)
 #Finaly building
 #--------------------------------------------------------------------
 
-add_library (Settings STATIC src/Settings/settings.hpp src/Settings/settings.cpp)
-add_library (Event_system STATIC src/Event_system/event_system.hpp src/Event_system/event_system.cpp)
+add_library (Game STATIC	src/Game/game_objects.hpp src/Game/game_objects.cpp src/Game/wall.cpp src/Game/game_manager.hpp 
+							src/Game/game_manager.cpp src/Game/text.hpp src/Game/text.cpp src/Game/settings.hpp src/Game/settings.cpp
+							src/Game/event_system.hpp src/Game/event_system.cpp)
 add_library (Render STATIC	src/Render/render.hpp src/Render/update_screen.cpp src/Render/shader_program.hpp src/Render/shader_program.cpp
 							src/Render/vo.hpp src/Render/vo.cpp)
 add_library (Resource_Manager STATIC src/Resorce_manager/resource_manager.hpp src/Resorce_manager/resource_manager.cpp)
-add_library (Game STATIC	src/Game/game_objects.hpp src/Game/game_objects.cpp src/Game/wall.cpp src/Game/game_manager.hpp 
-							src/Game/game_manager.cpp src/Game/text.hpp src/Game/text.cpp) 
 add_executable(${PROJECT_NAME} src/main.cpp)
-target_link_libraries(Event_system PUBLIC Settings glfw glad)
-target_link_libraries(Render PUBLIC Settings glfw glad glm Game)
-target_link_libraries(Resource_Manager PUBLIC Render Settings glfw glad)
-target_link_libraries(Game PUBLIC Render Settings  Resource_Manager glad glm)
-target_link_libraries(${PROJECT_NAME} Settings Event_system Render Resource_Manager Game)
+target_link_libraries(Render PUBLIC glfw glad glm Game)
+target_link_libraries(Resource_Manager PUBLIC Render glfw glad)
+target_link_libraries(Game PUBLIC Render Resource_Manager glfw glad glm)
+target_link_libraries(${PROJECT_NAME} Render Resource_Manager Game)
 target_link_libraries(${PROJECT_NAME} glfw)
 target_link_libraries(${PROJECT_NAME} glad)
 target_link_libraries(${PROJECT_NAME} glm)

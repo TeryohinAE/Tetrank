@@ -1,7 +1,8 @@
 #pragma once
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include "../Settings/settings.hpp"
+#include "settings.hpp"
+#include "game_manager.hpp"
 
 
 //функция для программного пользовательского изменения размера окна

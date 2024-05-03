@@ -58,7 +58,7 @@ public:
 	Player(Player&& Player) noexcept = delete;
 
 	Player(std::shared_ptr<Render::Shader_Program> pShader_program, float spawnpoint_x, float spawnpoint_y, GLuint& vao, std::string nickname,
-		glm::mat4x4 scale);
+		glm::mat4x4 scale, Model_Direction direction);
 
 public:
 	void draw(GLuint& vao);
@@ -69,8 +69,7 @@ public:
 	void set_alive();
 	std::string get_nickname();
 
-	static void press_keycap(GLFWwindow* pWindow, int key, int scancode, int action, int mode);
-	void move();
+	void move(Model_Direction direction);
 	void shoot();
 
 private:
@@ -89,7 +88,7 @@ private:
 	glm::translate(glm::mat4(1.0f), model_primitivs[4]),
 	glm::translate(glm::mat4(1.0f), model_primitivs[5])
 	};
-	static glm::mat4 speed; //TODO
+	double speed = 12;
 	GLfloat color[3];
 	std::shared_ptr<Render::Shader_Program> pModel_Shader_Program;
 	const int quantity_points_primitiv = 24;
@@ -132,7 +131,9 @@ public:
 	Map(std::vector<std::vector<char>> &map, GLuint &vao, std::shared_ptr<Render::Shader_Program> pShader_program);
 
 public:
+	int get_spawn_players_in_game_matrix(int num_player, char x_or_y);
 	std::vector<std::vector<char>> get_map();
+	Model_Direction get_spawn_direction(int num_player);
 	glm::mat4x4 get_scale_models();
 	float get_player_spawnpoint(int num_player, char x_or_y);
 	void draw(GLuint& vao);
@@ -142,10 +143,15 @@ private:
 	glm::mat4x4 scale_model;
 	std::vector<glm::mat4> model_matrix{glm::mat4(1.0f)};
 	unsigned int quantity_primitivs = 0;
+	int spawn_player1_in_game_matrix[2];
+	int spawn_player2_in_game_matrix[2];
+	int spawn_player3_in_game_matrix[2];
+	int spawn_player4_in_game_matrix[2];
 	float spawn_player1[2];
 	float spawn_player2[2];
 	float spawn_player3[2];
 	float spawn_player4[2];
+	Model_Direction direction_player1, direction_player2, direction_player3, direction_player4;
 	const int quantity_points_primitiv = 24;
 	static GLfloat color[3];
 	std::shared_ptr<Render::Shader_Program> pShader_program;

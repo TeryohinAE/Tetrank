@@ -6,10 +6,12 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/mat4x4.hpp>
+#include <memory>
 #include "Render/render.hpp"
-#include "Settings/settings.hpp"
-#include "Event_system/event_system.hpp"
+#include "Game/settings.hpp"
+#include "Game/event_system.hpp"
 #include "Resorce_manager/resource_manager.hpp"
+#include <thread>
 
 
 
@@ -21,8 +23,7 @@
 
 int main(int argc, char** argv)
 {
-    setlocale(LC_ALL, "Russian");
-
+    std::shared_ptr<Settings> set = std::make_shared<Settings>();
     /* Initialize the library */
     if (!glfwInit()) {
         std::cout << "error inicialize glfw\n";
@@ -97,7 +98,8 @@ int main(int argc, char** argv)
     game_manager.add_player(vao_player, "bob", vao_text);
     game_manager.add_player(vao_player, "scot", vao_text);
 
-
+    std::thread t1(&Game_Manager::game_tick, std::ref(game_manager));
+    t1.detach();
 
     /* Loop until the user closes the window */
     Render::update_screen(pWindow, vao_player, settings.get_limit_frame(), game_manager, vao_wall, vao_text);

@@ -1,5 +1,4 @@
 #include "resource_manager.hpp"
-#include "../Render/render.hpp"
 
 #include <sstream>
 #include <fstream>

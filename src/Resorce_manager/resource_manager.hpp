@@ -3,6 +3,8 @@
 #include <memory>
 #include <map>
 #include <vector>
+#include "../Render/render.hpp"
+
 //#include "../src/Render/render.hpp"
 namespace Render {
 	class Shader_Program;
