@@ -43,7 +43,6 @@ void Model::set_new_model(std::vector<glm::mat4> new_model)
 }
 
 Model::~Model() {
-	pModel_Shader_Program.~shared_ptr();
 }
 
 glm::mat4x4 Model::model_scaling = {
@@ -137,9 +136,27 @@ bool Player::is_alive()
 	return alive;
 }
 
+void Player::set_alive(bool alive)
+{
+	if (alive == true) {
+		this->alive = true;
+	}
+	else if (alive == false) {
+		this->alive = false;
+	}
+	else {
+		return;
+	}
+}
+
 std::string Player::get_nickname()
 {
 	return nickname;
+}
+
+Model_Direction Player::get_direction()
+{
+	return player_direction;
 }
 
 void Player::move(Model_Direction direction)
@@ -148,16 +165,16 @@ void Player::move(Model_Direction direction)
 		switch (player_direction)
 		{
 		case UP:
-			position = glm::mat4(glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, (speed * scale_player_model[0][0] * 0.00708333333f), 0.0f))) * position;
+			position = glm::mat4(glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, (speed * scale_player_model[1][1] * 0.00708333333f * 1.17), 0.0f))) * position;
 			break;
 		case DOWN:
-			position = glm::mat4(glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, (speed * scale_player_model[0][0] * -0.00708333333f), 0.0f))) * position;
+			position = glm::mat4(glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, (speed * scale_player_model[1][1] * -0.00708333333f * 1.17), 0.0f))) * position;
 			break;
 		case LEFT:
-			position = glm::mat4(glm::translate(glm::mat4(1.0f), glm::vec3((speed * scale_player_model[0][0] * -0.00398333333f), 0.0f, 0.0f))) * position;
+			position = glm::mat4(glm::translate(glm::mat4(1.0f), glm::vec3((speed * scale_player_model[0][0] * -0.00398333333f * 1.17), 0.0f, 0.0f))) * position;
 			break;
 		case RIGHT:
-			position = glm::mat4(glm::translate(glm::mat4(1.0f), glm::vec3((speed * scale_player_model[0][0] * 0.00398333333f), 0.0f, 0.0f))) * position;
+			position = glm::mat4(glm::translate(glm::mat4(1.0f), glm::vec3((speed * scale_player_model[0][0] * 0.00398333333f * 1.17), 0.0f, 0.0f))) * position;
 			break;
 		default:
 			break;
@@ -165,6 +182,27 @@ void Player::move(Model_Direction direction)
 	}
 	else {
 		rotate(direction);
+	}
+}
+
+void Player::move_back(Model_Direction direction, int quantity)
+{
+	switch (player_direction)
+	{
+	case UP:
+		position = glm::mat4(glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, (quantity * speed * scale_player_model[0][0] * -0.00708333333f * 1.17), 0.0f))) * position;
+		break;
+	case DOWN:
+		position = glm::mat4(glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, (quantity * speed * scale_player_model[0][0] * 0.00708333333f * 1.17), 0.0f))) * position;
+		break;
+	case LEFT:
+		position = glm::mat4(glm::translate(glm::mat4(1.0f), glm::vec3((quantity * speed * scale_player_model[0][0] * 0.00398333333f * 1.17), 0.0f, 0.0f))) * position;
+		break;
+	case RIGHT:
+		position = glm::mat4(glm::translate(glm::mat4(1.0f), glm::vec3((quantity * speed * scale_player_model[0][0] * -0.00398333333f * 1.17), 0.0f, 0.0f))) * position;
+		break;
+	default:
+		break;
 	}
 }
 

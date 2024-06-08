@@ -13,7 +13,7 @@ class Game_Manager;
 class Text;
 
 namespace Render {
-	void update_screen(GLFWwindow* pWindow, GLuint& vao_player, int limit_frame, Game_Manager& game_manager, GLuint& vao_wall, GLuint& vao_text);
+	void update_screen(GLFWwindow* pWindow, int limit_frame, Game_Manager& game_manager);
 	class Shader_Program;
 }
 

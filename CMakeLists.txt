@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.26)
 
-project(Tetrank VERSION 0.2)
+project(Tetrank VERSION 0.4)
+set(CMAKE_GENERATOR_PLATFORM x64)
 set(CMAKE_CXX_STANDARD 20)
 #target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
@@ -49,7 +50,7 @@ include_directories(external/glm-1.0.1)
 
 add_library (Game STATIC	src/Game/game_objects.hpp src/Game/game_objects.cpp src/Game/wall.cpp src/Game/game_manager.hpp 
 							src/Game/game_manager.cpp src/Game/text.hpp src/Game/text.cpp src/Game/settings.hpp src/Game/settings.cpp
-							src/Game/event_system.hpp src/Game/event_system.cpp)
+							src/Game/event_system.hpp src/Game/event_system.cpp src/Game/bullet.hpp src/Game/bullet.cpp)
 add_library (Render STATIC	src/Render/render.hpp src/Render/update_screen.cpp src/Render/shader_program.hpp src/Render/shader_program.cpp
 							src/Render/vo.hpp src/Render/vo.cpp)
 add_library (Resource_Manager STATIC src/Resorce_manager/resource_manager.hpp src/Resorce_manager/resource_manager.cpp)
@@ -64,11 +65,6 @@ target_link_libraries(${PROJECT_NAME} glm)
 
 
 set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/)
-#set_target_properties(Settings PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/)
-#set_target_properties(Event_system PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/)
-#set_target_properties(Render PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/)
-
-
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 					COMMAND ${CMAKE_COMMAND} -E copy_directory

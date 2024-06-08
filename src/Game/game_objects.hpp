@@ -66,10 +66,14 @@ public:
 	GLfloat get_green();
 	GLfloat get_blue();
 	bool is_alive();
-	void set_alive();
+	void set_alive(bool alive);
 	std::string get_nickname();
+	Model_Direction get_direction();
 
 	void move(Model_Direction direction);
+	void move_back(Model_Direction direction, int quantity);
+	void rotate(Model_Direction direction);
+
 	void shoot();
 
 private:
@@ -107,8 +111,6 @@ private:
 	std::string nickname;
 	Model_Direction player_direction;
 	bool alive = false;
-
-	void rotate(Model_Direction direction);
 
 public:
 	~Player();

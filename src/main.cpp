@@ -23,7 +23,6 @@
 
 int main(int argc, char** argv)
 {
-    std::shared_ptr<Settings> set = std::make_shared<Settings>();
     /* Initialize the library */
     if (!glfwInit()) {
         std::cout << "error inicialize glfw\n";
@@ -55,7 +54,7 @@ int main(int argc, char** argv)
     /* Initialize the library */
     if (!gladLoadGL())
     {
-        std::cout << "Can`t Load Glad Yomayo";
+        std::cout << "Can`t Load Glad";
         return -1;
     }
 
@@ -74,7 +73,6 @@ int main(int argc, char** argv)
     }
 
 
-
     GLuint vao_player = 0;
     GLuint points_player_vbo = 0;  
     GLuint ebo_player;
@@ -91,19 +89,18 @@ int main(int argc, char** argv)
     init_VO(vao_wall, points_wall_vbo, ebo_wall, pDefault_Shader_Program, WALL);
     init_VO(vao_text, points_text_vbo, ebo_text, pDefault_Shader_Program, TEXT);
 
-    Game_Manager game_manager(pDefault_Shader_Program, vao_wall, vao_text);
+    Game_Manager game_manager(pDefault_Shader_Program, vao_player, vao_wall, vao_text);
 
     game_manager.add_player(vao_player, "00000", vao_text);
     game_manager.add_player(vao_player, "Это я", vao_text);
     game_manager.add_player(vao_player, "bob", vao_text);
     game_manager.add_player(vao_player, "scot", vao_text);
 
-    std::thread t1(&Game_Manager::game_tick, std::ref(game_manager));
-    t1.detach();
 
     /* Loop until the user closes the window */
-    Render::update_screen(pWindow, vao_player, settings.get_limit_frame(), game_manager, vao_wall, vao_text);
+    Render::update_screen(pWindow, settings.get_limit_frame(), game_manager);
 
     glfwTerminate();
+    game_manager.~Game_Manager();
     return 0;
 }
