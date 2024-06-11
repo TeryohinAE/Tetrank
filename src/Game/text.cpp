@@ -2054,7 +2054,7 @@ std::vector<glm::mat4> Text_to_matrix::convert(std::string text)
 
 
 Text::Text(	std::string text, GLfloat red_color, GLfloat green_color, GLfloat blue_color, GLuint& vao, 
-			std::shared_ptr<Render::Shader_Program> p_shader, std::shared_ptr<Text_to_matrix> text_to_matrix, glm::mat4 position)
+			std::shared_ptr<Render::Shader_Program> p_shader, std::string rus_alphabet, glm::mat4 position)
 	: p_shader(p_shader), position(position)
 {
 	std::shared_ptr<Model> temp_model = std::make_shared<Model>(vao, quantity_points_primitiv, model_matrix, this->p_shader);
@@ -2066,15 +2066,16 @@ Text::Text(	std::string text, GLfloat red_color, GLfloat green_color, GLfloat bl
 	color[1] = green_color;
 	color[2] = blue_color;
 
-	set_new_text(text, text_to_matrix);
+	set_new_text(text, rus_alphabet);
 
 	vertexColorLocation = glGetUniformLocation(p_shader->get_shader_program_ID(), "Color");
 	scale_matrix_location = glGetUniformLocation(p_shader->get_shader_program_ID(), "scale_matrix");
 	position_matrix_location = glGetUniformLocation(p_shader->get_shader_program_ID(), "position_matrix");
 }
 
-void Text::set_new_text(std::string new_text, std::shared_ptr <Text_to_matrix> text_to_matrix)
+void Text::set_new_text(std::string new_text, std::string rus_alphabet)
 {
+	std::shared_ptr<Text_to_matrix> text_to_matrix = std::make_shared<Text_to_matrix>("ÀàÁáÂâÃãÄäÅå¨¸ÆæÇçÈèÉéÊêËëÌìÍíÎîÏïÐðÑñÒòÓóÔôÕõÖö×÷ØøÙùÚúÛûÜüÝýÞþßÿ—");
 	model_matrix = text_to_matrix->convert(new_text);
 	model_text->set_new_model(model_matrix);
 }

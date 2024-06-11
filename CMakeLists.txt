@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.26)
 
 project(Tetrank VERSION 0.4)
-set(CMAKE_GENERATOR_PLATFORM x64)
+#set(CMAKE_GENERATOR_PLATFORM x64)
 set(CMAKE_CXX_STANDARD 20)
 #target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD 20)
 #set(CMAKE_SYSTEM_PROCESSOR )
 #set(CMAKE_CXX_COMPILER includes/mingw64/bin/g++)
 #set(CMAKE_CONFIGURATION_TYPES Release)
-set(CMAKE_CONFIGURATION_TYPES Debug)
+#set(CMAKE_CONFIGURATION_TYPES Debug)
 #set(CMAKE_CROSSCOMPILING True)
 
 #--------------------------------------------------------------------

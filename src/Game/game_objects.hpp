@@ -110,7 +110,7 @@ private:
 
 	std::string nickname;
 	Model_Direction player_direction;
-	bool alive = false;
+	bool alive = true;
 
 public:
 	~Player();

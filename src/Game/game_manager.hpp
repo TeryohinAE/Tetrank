@@ -68,7 +68,6 @@ private:
 	float x_text_step_position = 0.0405;
 	float y_text_step_position = 0.12;
 	std::string rus_alphabet = "ÀàÁáÂâÃãÄäÅå¨¸ÆæÇçÈèÉéÊêËëÌìÍíÎîÏïĞğÑñÒòÓóÔôÕõÖö×÷ØøÙùÚúÛûÜüİıŞşßÿ—";
-	std::shared_ptr<Text_to_matrix> text_to_matrix = std::make_shared<Text_to_matrix>(rus_alphabet);
 
 	int global_position_location;
 
@@ -78,6 +77,9 @@ private:
 
 	bool chek_player_for_carpentry(int num_player, int direction);
 	bool move_player_on_matrix(int num_player, int direction);
+	void move_bullet(int num_bullet);
+	void kill(int num_player);
+	void is_end_round();
 
 	GLuint* vao_player;
 	GLuint* vao_wall;
@@ -105,9 +107,11 @@ private:
 	short temp_p4_move_right = 0;
 	short temp_p4_shoot = 0;
 	short tick = 5;
-	short bullet_tick = 2;
 	short gun_reload = 10;
 	size_t tick_i = 0;
+
+
+	int max_score = 1;
 
 
 public:

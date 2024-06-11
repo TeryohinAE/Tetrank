@@ -25,10 +25,10 @@ public:
 	Text(Text&& Text) noexcept = delete;
 
 	Text(	std::string text, GLfloat red_color, GLfloat green_color, GLfloat blue_color, GLuint& vao, 
-			std::shared_ptr<Render::Shader_Program> p_shader, std::shared_ptr <Text_to_matrix> text_to_matrix, glm::mat4 position);
+			std::shared_ptr<Render::Shader_Program> p_shader, std::string rus_alphabet, glm::mat4 position);
 
 public:
-	void set_new_text(std::string new_text, std::shared_ptr <Text_to_matrix> text_to_matrix);
+	void set_new_text(std::string new_text, std::string rus_alphabet);
 	void draw(GLuint&vao);
 
 private:
@@ -44,6 +44,7 @@ private:
 	std::vector<glm::vec3> model_primitivs;
 
 	std::shared_ptr<Render::Shader_Program> p_shader;
+	std::shared_ptr<Text_to_matrix> text_to_matrix;
 	const int quantity_points_primitiv = 6;
 
 	std::shared_ptr<Model> model_text;

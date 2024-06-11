@@ -106,6 +106,9 @@ Player::Player(std::shared_ptr<Render::Shader_Program> pShader_program, float sp
 
 void Player::draw(GLuint& vao)
 {
+	if (!is_alive()) {
+		return;
+	}
 	pModel_Shader_Program->use();
 	glUniform3f(vertexColorLocation, color[0], color[1], color[2]);
 	glUniformMatrix4fv(scale_matrix_location, 1, GL_FALSE, glm::value_ptr(scale_player_model));

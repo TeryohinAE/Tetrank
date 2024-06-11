@@ -66,7 +66,7 @@ Game_Manager::Game_Manager(std::shared_ptr<Render::Shader_Program> pDefault_shad
 	quantity_game_managers++;
 	select_map("default");
 
-	text_map.emplace("Score", std::make_shared<Text>("Ñ÷¸ò", 0.0f, 0.0f, 0.0f, vao_text, p_shader, text_to_matrix, 
+	text_map.emplace("Score", std::make_shared<Text>("Ñ÷¸ò", 0.0f, 0.0f, 0.0f, vao_text, p_shader, rus_alphabet, 
 		glm::mat4(glm::translate(glm::mat4(1.0f), glm::vec3(x_text_position, y_text_position, 0.0))))).first->second;
 
 	global_position_location = glGetUniformLocation(p_shader->get_shader_program_ID(), "global_position");
@@ -82,125 +82,137 @@ Game_Manager::Game_Manager(std::shared_ptr<Render::Shader_Program> pDefault_shad
 void Game_Manager::game_tick()
 {
 		tick_i++;
+		if (player_map[1]->is_alive()) {
+			if (settings.get_key_state(players_control_key[0][0]) && (temp_p1_move_down == 0 && temp_p1_move_left == 0 && temp_p1_move_right == 0)) {
+				player_map[1]->rotate(UP);
+				if (!chek_player_for_carpentry(1, UP)) {
+					player_map[1]->move(UP);			temp_p1_move_up++;
+				}
+			}
+			else if (settings.get_key_state(players_control_key[0][1]) && (temp_p1_move_up == 0 && temp_p1_move_left == 0 && temp_p1_move_right == 0)) {
+				player_map[1]->rotate(DOWN);
+				if (!chek_player_for_carpentry(1, DOWN)) {
+					player_map[1]->move(DOWN);	temp_p1_move_down++;
+				}
+			}
+			else if (settings.get_key_state(players_control_key[0][2]) && (temp_p1_move_down == 0 && temp_p1_move_up == 0 && temp_p1_move_right == 0)) {
+				player_map[1]->rotate(LEFT);
+				if (!chek_player_for_carpentry(1, LEFT)) {
+					player_map[1]->move(LEFT);	temp_p1_move_left++;
+				}
+			}
+			else if (settings.get_key_state(players_control_key[0][3]) && (temp_p1_move_down == 0 && temp_p1_move_left == 0 && temp_p1_move_up == 0)) {
+				player_map[1]->rotate(RIGHT);
+				if (!chek_player_for_carpentry(1, RIGHT)) {
+					player_map[1]->move(RIGHT);	temp_p1_move_right++;
+				}
+			}
+			if (settings.get_key_state(players_control_key[0][4])) { temp_p1_shoot++; }
+		}
 
-		if (settings.get_key_state(players_control_key[0][0]) && (temp_p1_move_down == 0 && temp_p1_move_left == 0 && temp_p1_move_right == 0)) {
-			player_map[1]->rotate(UP);
-			if (!chek_player_for_carpentry(1, UP)) {
-				player_map[1]->move(UP);			temp_p1_move_up++;
+		if (player_map[2]->is_alive()) {
+			if (settings.get_key_state(players_control_key[1][0]) && (temp_p2_move_down == 0 && temp_p2_move_left == 0 && temp_p2_move_right == 0)) {
+				player_map[2]->rotate(UP);
+				if (!chek_player_for_carpentry(2, UP)) {
+					player_map[2]->move(UP);
+					temp_p2_move_up++;
+				}
 			}
-		}
-		else if (settings.get_key_state(players_control_key[0][1]) && (temp_p1_move_up == 0 && temp_p1_move_left == 0 && temp_p1_move_right == 0)) {
-			player_map[1]->rotate(DOWN);
-			if (!chek_player_for_carpentry(1,DOWN)) {
-				player_map[1]->move(DOWN);	temp_p1_move_down++;
+			else if (settings.get_key_state(players_control_key[1][1]) && (temp_p2_move_up == 0 && temp_p2_move_left == 0 && temp_p2_move_right == 0)) {
+				player_map[2]->rotate(DOWN);
+				if (!chek_player_for_carpentry(2, DOWN)) {
+					player_map[2]->move(DOWN);
+					temp_p2_move_down++;
+				}
 			}
-		}
-		else if (settings.get_key_state(players_control_key[0][2]) && (temp_p1_move_down == 0 && temp_p1_move_up == 0 && temp_p1_move_right == 0)) {
-			player_map[1]->rotate(LEFT);
-			if (!chek_player_for_carpentry(1, LEFT)) {
-				player_map[1]->move(LEFT);	temp_p1_move_left++;
+			else if (settings.get_key_state(players_control_key[1][2]) && (temp_p2_move_down == 0 && temp_p2_move_up == 0 && temp_p2_move_right == 0)) {
+				player_map[2]->rotate(LEFT);
+				if (!chek_player_for_carpentry(2, LEFT)) {
+					player_map[2]->move(LEFT);
+					temp_p2_move_left++;
+				}
 			}
-		}
-		else if (settings.get_key_state(players_control_key[0][3]) && (temp_p1_move_down == 0 && temp_p1_move_left == 0 && temp_p1_move_up == 0)) {
-			player_map[1]->rotate(RIGHT);
-			if (!chek_player_for_carpentry(1, RIGHT)) {
-				player_map[1]->move(RIGHT);	temp_p1_move_right++;
+			else if (settings.get_key_state(players_control_key[1][3]) && (temp_p2_move_down == 0 && temp_p2_move_left == 0 && temp_p2_move_up == 0)) {
+				player_map[2]->rotate(RIGHT);
+				if (!chek_player_for_carpentry(2, RIGHT)) {
+					player_map[2]->move(RIGHT);
+					temp_p2_move_right++;
+				}
 			}
+			if (settings.get_key_state(players_control_key[1][4])) { temp_p2_shoot++; }
 		}
-		if (settings.get_key_state(players_control_key[0][4])) { temp_p1_shoot++; }
 
-		if (settings.get_key_state(players_control_key[1][0]) && (temp_p2_move_down == 0 && temp_p2_move_left == 0 && temp_p2_move_right == 0)) { 
-			player_map[2]->rotate(UP);
-			if (!chek_player_for_carpentry(2, UP)) {
-				player_map[2]->move(UP);
-				temp_p2_move_up++;
+		if (player_map[3]->is_alive()) {
+			if (settings.get_key_state(players_control_key[2][0]) && (temp_p3_move_down == 0 && temp_p3_move_left == 0 && temp_p3_move_right == 0)) {
+				player_map[3]->rotate(UP);
+				if (!chek_player_for_carpentry(3, UP)) {
+					player_map[3]->move(UP);
+					temp_p3_move_up++;
+				}
 			}
-		}
-		else if (settings.get_key_state(players_control_key[1][1]) && (temp_p2_move_up == 0 && temp_p2_move_left == 0 && temp_p2_move_right == 0)) { 
-			player_map[2]->rotate(DOWN);
-			if (!chek_player_for_carpentry(2, DOWN)) {
-				player_map[2]->move(DOWN);
-				temp_p2_move_down++;
+			else if (settings.get_key_state(players_control_key[2][1]) && (temp_p3_move_up == 0 && temp_p3_move_left == 0 && temp_p3_move_right == 0)) {
+				player_map[3]->rotate(DOWN);
+				if (!chek_player_for_carpentry(3, DOWN)) {
+					player_map[3]->move(DOWN);
+					temp_p3_move_down++;
+				}
 			}
-		}
-		else if (settings.get_key_state(players_control_key[1][2]) && (temp_p2_move_down == 0 && temp_p2_move_up == 0 && temp_p2_move_right == 0)) { 
-			player_map[2]->rotate(LEFT);
-			if (!chek_player_for_carpentry(2, LEFT)) {
-				player_map[2]->move(LEFT);
-				temp_p2_move_left++;
+			else if (settings.get_key_state(players_control_key[2][2]) && (temp_p3_move_down == 0 && temp_p3_move_up == 0 && temp_p3_move_right == 0)) {
+				player_map[3]->rotate(LEFT);
+				if (!chek_player_for_carpentry(3, LEFT)) {
+					player_map[3]->move(LEFT);
+					temp_p3_move_left++;
+				}
 			}
-		}
-		else if (settings.get_key_state(players_control_key[1][3]) && (temp_p2_move_down == 0 && temp_p2_move_left == 0 && temp_p2_move_up == 0)) { 
-			player_map[2]->rotate(RIGHT);
-			if (!chek_player_for_carpentry(2, RIGHT)) {
-				player_map[2]->move(RIGHT);
-				temp_p2_move_right++;
+			else if (settings.get_key_state(players_control_key[2][3]) && (temp_p3_move_down == 0 && temp_p3_move_left == 0 && temp_p3_move_up == 0)) {
+				player_map[3]->rotate(RIGHT);
+				if (!chek_player_for_carpentry(3, RIGHT)) {
+					player_map[3]->move(RIGHT);
+					temp_p3_move_right++;
+				}
 			}
+			if (settings.get_key_state(players_control_key[2][4])) { temp_p3_shoot++; }
 		}
-		if (settings.get_key_state(players_control_key[1][4])) { temp_p2_shoot++; }
 
-		if (settings.get_key_state(players_control_key[2][0]) && (temp_p3_move_down == 0 && temp_p3_move_left == 0 && temp_p3_move_right == 0)) {
-			player_map[3]->rotate(UP);
-			if (!chek_player_for_carpentry(3, UP)) {
-				player_map[3]->move(UP);
-				temp_p3_move_up++;
+		if (player_map[4]->is_alive()) {
+			if (settings.get_key_state(players_control_key[3][0]) && (temp_p4_move_down == 0 && temp_p4_move_left == 0 && temp_p4_move_right == 0)) {
+				player_map[4]->rotate(UP);
+				if (!chek_player_for_carpentry(4, UP)) {
+					player_map[4]->move(UP);
+					temp_p4_move_up++;
+				}
 			}
-		}
-		else if (settings.get_key_state(players_control_key[2][1]) && (temp_p3_move_up == 0 && temp_p3_move_left == 0 && temp_p3_move_right == 0)) {
-			player_map[3]->rotate(DOWN);
-			if (!chek_player_for_carpentry(3, DOWN)) {
-				player_map[3]->move(DOWN);
-				temp_p3_move_down++;
+			else if (settings.get_key_state(players_control_key[3][1]) && (temp_p4_move_up == 0 && temp_p4_move_left == 0 && temp_p4_move_right == 0)) {
+				player_map[4]->rotate(DOWN);
+				if (!chek_player_for_carpentry(4, DOWN)) {
+					player_map[4]->move(DOWN);
+					temp_p4_move_down++;
+				}
 			}
-		}
-		else if (settings.get_key_state(players_control_key[2][2]) && (temp_p3_move_down == 0 && temp_p3_move_up == 0 && temp_p3_move_right == 0)) {
-			player_map[3]->rotate(LEFT);
-			if (!chek_player_for_carpentry(3, LEFT)) {
-				player_map[3]->move(LEFT);
-				temp_p3_move_left++;
+			else if (settings.get_key_state(players_control_key[3][2]) && (temp_p4_move_down == 0 && temp_p4_move_up == 0 && temp_p4_move_right == 0)) {
+				player_map[4]->rotate(LEFT);
+				if (!chek_player_for_carpentry(4, LEFT)) {
+					player_map[4]->move(LEFT);
+					temp_p4_move_left++;
+				}
 			}
-		}
-		else if (settings.get_key_state(players_control_key[2][3]) && (temp_p3_move_down == 0 && temp_p3_move_left == 0 && temp_p3_move_up == 0)) {
-			player_map[3]->rotate(RIGHT);
-			if (!chek_player_for_carpentry(3, RIGHT)) {
-				player_map[3]->move(RIGHT);
-				temp_p3_move_right++;
+			else if (settings.get_key_state(players_control_key[3][3]) && (temp_p4_move_down == 0 && temp_p4_move_left == 0 && temp_p4_move_up == 0)) {
+				player_map[4]->rotate(RIGHT);
+				if (!chek_player_for_carpentry(4, RIGHT)) {
+					player_map[4]->move(RIGHT);
+					temp_p4_move_right++;
+				}
 			}
+			if (settings.get_key_state(players_control_key[3][4])) { temp_p4_shoot++; }
 		}
-		if (settings.get_key_state(players_control_key[2][4])) { temp_p3_shoot++; }
-
-		if (settings.get_key_state(players_control_key[3][0]) && (temp_p4_move_down == 0 && temp_p4_move_left == 0 && temp_p4_move_right == 0)) {
-			player_map[4]->rotate(UP);
-			if (!chek_player_for_carpentry(4, UP)) {
-				player_map[4]->move(UP);
-				temp_p4_move_up++;
-			}
-		}
-		else if (settings.get_key_state(players_control_key[3][1]) && (temp_p4_move_up == 0 && temp_p4_move_left == 0 && temp_p4_move_right == 0)) {
-			player_map[4]->rotate(DOWN);
-			if (!chek_player_for_carpentry(4, DOWN)) {
-				player_map[4]->move(DOWN);
-				temp_p4_move_down++;
-			}
-		}
-		else if (settings.get_key_state(players_control_key[3][2]) && (temp_p4_move_down == 0 && temp_p4_move_up == 0 && temp_p4_move_right == 0)) {
-			player_map[4]->rotate(LEFT);
-			if (!chek_player_for_carpentry(4, LEFT)) {
-				player_map[4]->move(LEFT);
-				temp_p4_move_left++;
-			}
-		}
-		else if (settings.get_key_state(players_control_key[3][3]) && (temp_p4_move_down == 0 && temp_p4_move_left == 0 && temp_p4_move_up == 0)) {
-			player_map[4]->rotate(RIGHT);
-			if (!chek_player_for_carpentry(4, RIGHT)) {
-				player_map[4]->move(RIGHT);
-				temp_p4_move_right++;
-			}
-		}
-		if (settings.get_key_state(players_control_key[3][4])) { temp_p4_shoot++; }
 
 
 		if ((tick_i%tick)==0) {
+
+			for (int i = 0; i < bullets.size(); i++) {
+				move_bullet(i);
+			}
+
 			if (temp_p1_move_up >= tick) {
 				move_player_on_matrix(1, UP);
 			}
@@ -318,9 +330,6 @@ void Game_Manager::game_tick()
 			}
 		}
 
-		if (tick_i % bullet_tick == 0) {
-
-		}
 
 		if (tick_i == 60) {
 			tick_i = 0;
@@ -342,7 +351,7 @@ bool Game_Manager::add_player(GLuint& vao_player, std::string nickname, GLuint& 
 
 	text_map.emplace(std::to_string(quantity_player), std::make_shared<Text>(nickname+" — "+std::to_string(score_map[nickname]), 
 		player_map[quantity_player]->get_red(), player_map[quantity_player]->get_green(), player_map[quantity_player]->get_blue(), 
-		vao_text, p_shader, text_to_matrix, glm::mat4(glm::translate(glm::mat4(1.0f), 
+		vao_text, p_shader, rus_alphabet, glm::mat4(glm::translate(glm::mat4(1.0f), 
 			glm::vec3(x_text_position, (y_text_position - (y_text_step_position * (quantity_player + 1))), 0.0))))).first->second;
 
 	return true;
@@ -429,19 +438,19 @@ void Game_Manager::player_shoot(int num_player)
 		return;
 	}
 	else if (game_map[temp[1]][temp[0]] == '1') {
-		player_map[1]->set_alive(false);
+		kill(1);
 		return;
 	}
 	else if (game_map[temp[1]][temp[0]] == '2') {
-		player_map[2]->set_alive(false);
+		kill(2);
 		return;
 	}
 	else if (game_map[temp[1]][temp[0]] == '3') {
-		player_map[3]->set_alive(false);
+		kill(3);
 		return;
 	}
 	else if (game_map[temp[1]][temp[0]] == '4') {
-		player_map[4]->set_alive(false);
+		kill(4);
 		return;
 	}
 	else if (game_map[temp[1]][temp[0]] == 'b') {
@@ -789,6 +798,139 @@ bool Game_Manager::move_player_on_matrix(int num_player, int direction)
 		break;
 	}
 	return false;
+}
+
+void Game_Manager::move_bullet(int num_bullet)
+{
+	int temp_x, temp_y;
+	temp_x = bullets[num_bullet]->get_position_on_map('x');
+	temp_y = bullets[num_bullet]->get_position_on_map('y');
+	int temp_direction = bullets[num_bullet]->bullet_direction();
+	game_map[temp_y][temp_x] = 'v';
+	switch (temp_direction)
+	{
+	case UP:
+		temp_y--;
+		break;
+
+	case DOWN:
+		temp_y++;
+		break;
+
+	case LEFT:
+		temp_x--;
+		break;
+
+	case RIGHT:
+		temp_x++;
+		break;
+
+	default:
+		return;
+	}
+
+	if (game_map[temp_y][temp_x] == 'w') {
+		auto iter = bullets.cbegin();
+		iter = iter + num_bullet;
+		bullets.erase(iter);
+		return;
+	}
+	else if (game_map[temp_y][temp_x] == '1') {
+		kill(1);
+		auto iter = bullets.cbegin();
+		iter = iter + num_bullet;
+		bullets.erase(iter);
+		return;
+	}
+	else if (game_map[temp_y][temp_x] == '2') {
+		kill(2);
+		auto iter = bullets.cbegin();
+		iter = iter + num_bullet;
+		bullets.erase(iter);
+		return;
+	}
+	else if (game_map[temp_y][temp_x] == '3') {
+		kill(3);
+		auto iter = bullets.cbegin();
+		iter = iter + num_bullet;
+		bullets.erase(iter);
+		return;
+	}
+	else if (game_map[temp_y][temp_x] == '4') {
+		kill(4);
+		auto iter = bullets.cbegin();
+		iter = iter + num_bullet;
+		bullets.erase(iter);
+		return;
+	}
+	else if (game_map[temp_y][temp_x] == 'd') {
+		for (int i = 0; i < 4; i++) {
+			if (((temp_x - players_position_on_map[i][0]) <= 1) && ((players_position_on_map[i][0] - temp_x) <= 1)) {
+				if (((temp_y - players_position_on_map[i][1]) <= 1) && ((players_position_on_map[i][1] - temp_y) <= 1)) {
+					kill((i + 1));
+					auto iter = bullets.cbegin();
+					iter = iter + num_bullet;
+					bullets.erase(iter);
+					return;
+				}
+			}
+		}
+	}
+	game_map[temp_y][temp_x] = 'b';
+	bullets[num_bullet]->set_position_on_map('x', temp_x);
+	bullets[num_bullet]->set_position_on_map('y', temp_y);
+}
+
+void Game_Manager::kill(int num_player)
+{
+	if (player_map[num_player]->is_alive() == false) {
+		return;
+	}
+	player_map[num_player]->set_alive(false);
+
+	game_map[(players_position_on_map[(num_player - 1)][1] - 1)][(players_position_on_map[(num_player - 1)][0] - 1)] = 'v';
+	game_map[(players_position_on_map[(num_player - 1)][1] - 1)][(players_position_on_map[(num_player - 1)][0])] = 'v';
+	game_map[(players_position_on_map[(num_player - 1)][1] - 1)][(players_position_on_map[(num_player - 1)][0] + 1)] = 'v';
+
+	game_map[(players_position_on_map[(num_player - 1)][1])][(players_position_on_map[(num_player - 1)][0] - 1)] = 'v';
+	game_map[(players_position_on_map[(num_player - 1)][1])][(players_position_on_map[(num_player - 1)][0])] = 'v';
+	game_map[(players_position_on_map[(num_player - 1)][1])][(players_position_on_map[(num_player - 1)][0] + 1)] = 'v';
+
+	game_map[(players_position_on_map[(num_player - 1)][1] + 1)][(players_position_on_map[(num_player - 1)][0] - 1)] = 'v';
+	game_map[(players_position_on_map[(num_player - 1)][1] + 1)][(players_position_on_map[(num_player - 1)][0])] = 'v';
+	game_map[(players_position_on_map[(num_player - 1)][1] + 1)][(players_position_on_map[(num_player - 1)][0] + 1)] = 'v';
+
+	is_end_round();
+}
+
+void Game_Manager::is_end_round()
+{
+	int temp_quantity_isnt_alive = 0;
+	for (int i = 0; i < 4; i++) {
+		if (!player_map[(i + 1)]->is_alive()) {
+			temp_quantity_isnt_alive++;
+		}
+	}
+	if (temp_quantity_isnt_alive == 3) {
+		for (int i = 0; i < 4; i++) {
+			if (player_map[(i + 1)]->is_alive()) {
+				score_map[(player_map[(i + 1)]->get_nickname())]++;
+				std::string temp_string = std::to_string(score_map[(player_map[(i + 1)]->get_nickname())]);
+				text_map[std::to_string((i + 1))] = std::make_shared<Text>(player_map[(i + 1)]->get_nickname() + " — " + temp_string,
+					player_map[(i + 1)]->get_red(), player_map[(i + 1)]->get_green(), player_map[(i + 1)]->get_blue(),
+					*vao_text, p_shader, rus_alphabet, glm::mat4(glm::translate(glm::mat4(1.0f),
+						glm::vec3(x_text_position, (y_text_position - (y_text_step_position * ((i + 1) + 1))), 0.0))));
+			}
+		}
+	}
+	for (int i = 0; i < 4; i++) {
+		if (score_map[(player_map[(i + 1)]->get_nickname())] >= max_score) {
+			std::cout << player_map[(i + 1)]->get_nickname() << " WIN";
+			settings.change_key_state(GLFW_KEY_ESCAPE, true);
+		}
+
+	}
+
 }
 
 
