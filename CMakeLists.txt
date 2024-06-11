@@ -50,7 +50,7 @@ include_directories(external/glm-1.0.1)
 
 add_library (Game STATIC	src/Game/game_objects.hpp src/Game/game_objects.cpp src/Game/wall.cpp src/Game/game_manager.hpp 
 							src/Game/game_manager.cpp src/Game/text.hpp src/Game/text.cpp src/Game/settings.hpp src/Game/settings.cpp
-							src/Game/event_system.hpp src/Game/event_system.cpp src/Game/bullet.hpp src/Game/bullet.cpp)
+							src/Game/event_system.hpp src/Game/event_system.cpp src/Game/bullet.cpp)
 add_library (Render STATIC	src/Render/render.hpp src/Render/update_screen.cpp src/Render/shader_program.hpp src/Render/shader_program.cpp
 							src/Render/vo.hpp src/Render/vo.cpp)
 add_library (Resource_Manager STATIC src/Resorce_manager/resource_manager.hpp src/Resorce_manager/resource_manager.cpp)

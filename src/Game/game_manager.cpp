@@ -376,7 +376,7 @@ bool Game_Manager::select_map(std::string name_map)
 void Game_Manager::player_shoot(int num_player)
 {
 	int temp[2];
-	Model_Direction temp_direction = player_map[num_player]->get_direction();
+	int temp_direction = player_map[num_player]->get_direction();
 	switch (temp_direction) {
 	case UP:
 		temp[0] = players_position_on_map[num_player - 1][0];
@@ -504,7 +504,7 @@ void Game_Manager::player_shoot(int num_player)
 
 
 	bullets.push_back(std::make_shared<Bullet>(p_shader, temp_x_coordinate, temp_y_coordinate, player_map[num_player]->get_red(),
-		player_map[num_player]->get_green(), player_map[num_player]->get_blue(), current_map->get_scale_models(), temp_direction,
+		player_map[num_player]->get_green(), player_map[num_player]->get_blue(), current_map->get_scale_models(), player_map[num_player]->get_direction(),
 		*vao_player, temp[0], temp[1]));
 }
 
@@ -540,7 +540,7 @@ Game_Manager::~Game_Manager()
 	text_map.clear();
 }
 
-bool Game_Manager::chek_player_for_carpentry(int num_player, Model_Direction direction)
+bool Game_Manager::chek_player_for_carpentry(int num_player, int direction)
 {
 	switch (direction)
 	{
@@ -657,7 +657,7 @@ bool Game_Manager::chek_player_for_carpentry(int num_player, Model_Direction dir
 	}
 }
 
-bool Game_Manager::move_player_on_matrix(int num_player, Model_Direction direction)
+bool Game_Manager::move_player_on_matrix(int num_player, int direction)
 {
 	char temp;
 

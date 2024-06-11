@@ -6,7 +6,6 @@
 #include <map>
 #include <chrono>
 #include "settings.hpp"
-#include "bullet.hpp"
 ////функция для программного пользовательского изменения размера окна
 //void glfwWindowSizeCallback(GLFWwindow* pWindow, int wight, int height);
 //
@@ -21,7 +20,6 @@ class Player;
 class Map;
 class Text_to_matrix;
 class Text;
-enum Model_Direction;
 class Bullet;
 
 class Game_Manager final {
@@ -78,8 +76,8 @@ private:
 	int pause_key;//TODO
 	std::chrono::steady_clock::time_point update_game_matrix;
 
-	bool chek_player_for_carpentry(int num_player, Model_Direction direction);
-	bool move_player_on_matrix(int num_player, Model_Direction direction);
+	bool chek_player_for_carpentry(int num_player, int direction);
+	bool move_player_on_matrix(int num_player, int direction);
 
 	GLuint* vao_player;
 	GLuint* vao_wall;
