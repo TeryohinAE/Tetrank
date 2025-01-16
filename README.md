@@ -1,13 +1,13 @@
-###Tetrank
+# Tetrank
 
-##Зависимости
-GLFW (если будут проблемы с гладом в этом репозитории)
-GLAD (если будут проблемы с гладом в этом репозитории)
-Wayland (on a Linux)
+### Dependencies
+- GLFW (if there are problem with GLFW in this repository)
+- GLAD (if there are problem with GLAD in this repository)
+- Wayland (on a Linux)
 
-##Понадобится для сборки
-CMake (and Make for Linux)
-Any C++ compile
+### Needed for make
+- CMake (and Make for Linux)
+- Any C++ compile
 
-TODO
-fix path_symbol in costructor res_manegera
+_TODO:_    
+_fix path_symbol in costructor res_maneger_
